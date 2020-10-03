@@ -109,9 +109,28 @@ for (var i = 0; i < big_json.length; i++) {
 
     junkPositions.push([junk_position, junk_satrec]);
 
-
     addOrbitObjectToLayer(junkLayer, junk_position, json["OBJECT_NAME"])
 }
+
+var catcherLayer = new WorldWind.RenderableLayer("Catcher");
+
+catchersPositions = []
+
+function createCatcher(groundStation, targetSatrec) {
+    var newCatcherPosition = new WorldWind.Position(groundStation.latitude, groundStation.longitude, 1e3)
+    catchersPositions.push([newCatcherPosition, targetSatrec])
+    addOrbitObjectToLayer(catcherLayer, newCatcherPosition, "Catcher", WorldWind.Color.RED, 0.8, 0.8)
+}
+
+function getNewCatcherPosition(catcherPosition, targetPosition) {
+    var catcherLocation = new WorldWind.Location(catcherPosition.latitude, catcherPosition.longitude)
+    var targetLocation = new WorldWind.Location(targetPosition.latitude, targetPosition.longitude)
+    var resultLocation = new WorldWind.Location()
+    WorldWind.Location.interpolateGreatCircle(0.01, catcherLocation, targetLocation, resultLocation)
+    var newPosition = new WorldWind.Position(resultLocation.latitude, resultLocation.longitude, targetPosition.altitude)
+    return newPosition
+}
+
 
 // Update WorldWindow
 var wwd = new WorldWind.WorldWindow("wwd");
@@ -122,6 +141,7 @@ wwd.addLayer(atmosphereLayer);
 wwd.addLayer(starfieldLayer);
 wwd.addLayer(groundStationsLayer);
 wwd.addLayer(junkLayer);
+wwd.addLayer(catcherLayer);
 // wwd.addLayer(orbitLayer);
 wwd.addLayer(satelliteLayer);
 
@@ -166,9 +186,9 @@ console.log(pickList.objects[p])
             }
         }
 
-        if (numShapesPicked > 0) {
-            console.log(numShapesPicked + " shapes picked");
-        }
+        // if (numShapesPicked > 0) {
+        //     console.log(numShapesPicked + " shapes picked");
+        // }
     }
 
 
@@ -205,6 +225,9 @@ wwd.redraw();
 
 // Update Satellite Position
 var follow = false;
+
+createCatcher(groundStations[0], junkPositions[0][1])
+
 window.setInterval(function () {
     var position = getPosition(satrec, new Date());
     currentPosition.latitude = position.latitude;
@@ -216,6 +239,15 @@ window.setInterval(function () {
         junkPositions[i][0].latitude = newPosition.latitude;
         junkPositions[i][0].longitude = newPosition.longitude;
         junkPositions[i][0].altitude = newPosition.altitude;
+    }
+
+    for (var i = 0; i < catchersPositions.length; i++) {
+        var targetPosition = getPosition(catchersPositions[i][1], new Date());
+        var oldCatcherPosition = catchersPositions[i][0];
+        var newPosition = getNewCatcherPosition(oldCatcherPosition, targetPosition);
+        oldCatcherPosition.latitude = newPosition.latitude;
+        oldCatcherPosition.longitude = newPosition.longitude;
+        oldCatcherPosition.altitude = newPosition.altitude;
     }
 
     updateLatitudeLongitudeAltitude(currentPosition);

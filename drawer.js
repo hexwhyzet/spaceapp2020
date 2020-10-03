@@ -70,19 +70,19 @@ function addTracesToLayer(layer, satrec) {
     layer.addRenderable(futureOrbitPath);
 }
 
-function addOrbitObjectToLayer(layer, satellitePosition, label) {
+function addOrbitObjectToLayer(layer, satellitePosition, label, color=WorldWind.Color.WHITE, imageScale=0.2, labelScale=0.6) {
     var placemarkAttributes = new WorldWind.PlacemarkAttributes(null);
     placemarkAttributes.imageSource = "resources/icons/satellite.png";
-    placemarkAttributes.imageScale = 0.2;
+    placemarkAttributes.imageScale = imageScale;
     placemarkAttributes.imageOffset = new WorldWind.Offset(
         WorldWind.OFFSET_FRACTION, 0.5,
         WorldWind.OFFSET_FRACTION, 0.5);
-    placemarkAttributes.imageColor = WorldWind.Color.WHITE;
+    placemarkAttributes.imageColor = color;
     placemarkAttributes.labelAttributes.offset = new WorldWind.Offset(
         WorldWind.OFFSET_FRACTION, 0.5,
         WorldWind.OFFSET_FRACTION, 1.0);
-    placemarkAttributes.labelAttributes.color = WorldWind.Color.WHITE;
-    placemarkAttributes.labelAttributes.scale = 0.6
+    placemarkAttributes.labelAttributes.color = color;
+    placemarkAttributes.labelAttributes.scale = labelScale
 
     var highlightPlacemarkAttributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
     highlightPlacemarkAttributes.imageScale = 1.2;
