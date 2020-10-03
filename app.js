@@ -160,7 +160,7 @@ var handlePick = function (o) {
                 
             }
 
-
+console.log(pickList.objects[p])
             if (!pickList.objects[p].isTerrain) {
                 ++numShapesPicked;
             }
