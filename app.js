@@ -1,6 +1,8 @@
 // This is a minimal satellite tracker web app built around Web WorldWind and Satellite.js
 // based around Yann Voumard's work: https://github.com/AkeluX
 
+// import data from "./data/junk_elem_example.json"
+
 // Update latitude, longitude and altitude in the DOM
 var latitudePlaceholder = document.getElementById('latitude');
 var longitudePlaceholder = document.getElementById('longitude');
@@ -47,7 +49,62 @@ currentPosition = new WorldWind.Position(position.latitude,
 
 var satelliteLayer = new WorldWind.RenderableLayer("Satellite");
 
-addSatelliteToLayer(satelliteLayer, currentPosition)
+addSatelliteToLayer(satelliteLayer, currentPosition, "Santinel 1A")
+
+const json = {
+    "CCSDS_OMM_VERS": "2.0",
+    "COMMENT": "GENERATED VIA SPACE-TRACK.ORG API",
+    "CREATION_DATE": "2020-10-03T06:46:10",
+    "ORIGINATOR": "18 SPCS",
+    "OBJECT_NAME": "VANGUARD 1",
+    "OBJECT_ID": "1958-002B",
+    "CENTER_NAME": "EARTH",
+    "REF_FRAME": "TEME",
+    "TIME_SYSTEM": "UTC",
+    "MEAN_ELEMENT_THEORY": "SGP4",
+    "EPOCH": "2020-10-03T01:53:25.899936",
+    "MEAN_MOTION": "10.84868857",
+    "ECCENTRICITY": "0.18457170",
+    "INCLINATION": "34.2436",
+    "RA_OF_ASC_NODE": "256.7240",
+    "ARG_OF_PERICENTER": "116.6654",
+    "MEAN_ANOMALY": "263.4500",
+    "EPHEMERIS_TYPE": "0",
+    "CLASSIFICATION_TYPE": "U",
+    "NORAD_CAT_ID": "5",
+    "ELEMENT_SET_NO": "999",
+    "REV_AT_EPOCH": "21704",
+    "BSTAR": "0.00002332900000",
+    "MEAN_MOTION_DOT": "0.00000005",
+    "MEAN_MOTION_DDOT": "0.0000000000000",
+    "SEMIMAJOR_AXIS": "8619.531",
+    "PERIOD": "132.734",
+    "APOAPSIS": "3832.318",
+    "PERIAPSIS": "650.475",
+    "OBJECT_TYPE": "PAYLOAD",
+    "RCS_SIZE": "MEDIUM",
+    "COUNTRY_CODE": "US",
+    "LAUNCH_DATE": "1958-03-17",
+    "SITE": "AFETR",
+    "DECAY_DATE": null,
+    "FILE": "2840663",
+    "GP_ID": "162653092",
+    "TLE_LINE0": "0 VANGUARD 1",
+    "TLE_LINE1": "1     5U 58002B   20277.07877199  .00000005  00000-0  23329-4 0  9994",
+    "TLE_LINE2": "2     5  34.2436 256.7240 1845717 116.6654 263.4500 10.84868857217046"
+}
+var junk_tle_line_1 = json["TLE_LINE1"]
+var junk_tle_line_2 = json["TLE_LINE2"]
+var junk_satrec = satellite.twoline2satrec(junk_tle_line_1, junk_tle_line_2);
+
+var junk_position = getPosition(junk_satrec, time)
+currentPosition = new WorldWind.Position(junk_position.latitude,
+    junk_position.longitude,
+    junk_position.altitude);
+
+var junkLayer = new WorldWind.RenderableLayer("Junk");
+
+addSatelliteToLayer(junkLayer, junk_position, "VANGUARD 1")
 
 // Update WorldWindow
 var wwd = new WorldWind.WorldWindow("wwd");
@@ -57,7 +114,8 @@ wwd.addLayer(bmngLayer);
 wwd.addLayer(atmosphereLayer);
 wwd.addLayer(starfieldLayer);
 wwd.addLayer(groundStationsLayer);
-wwd.addLayer(orbitLayer);
+wwd.addLayer(junkLayer);
+// wwd.addLayer(orbitLayer);
 wwd.addLayer(satelliteLayer);
 
 //Responsive altitude on devices

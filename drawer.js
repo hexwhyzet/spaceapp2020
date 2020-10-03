@@ -70,7 +70,7 @@ function addTracesToLayer(layer, satrec) {
     orbitLayer.addRenderable(futureOrbitPath);
 }
 
-function addSatelliteToLayer(layer, satellitePosition) {
+function addSatelliteToLayer(layer, satellitePosition, label) {
     var placemarkAttributes = new WorldWind.PlacemarkAttributes(null);
     placemarkAttributes.imageSource = "resources/icons/satellite.png";
     placemarkAttributes.imageScale = 1;
@@ -90,7 +90,7 @@ function addSatelliteToLayer(layer, satellitePosition) {
     updateLatitudeLongitudeAltitude(satellitePosition);
 
     placemark.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
-    placemark.label = "Sentinel 1A";
+    placemark.label = label;
     placemark.attributes = placemarkAttributes;
     placemark.highlightAttributes = highlightPlacemarkAttributes;
 
