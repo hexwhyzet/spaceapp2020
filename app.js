@@ -88,8 +88,8 @@ wwd.addLayer(bmngLayer);
 wwd.addLayer(atmosphereLayer);
 wwd.addLayer(starfieldLayer);
 wwd.addLayer(groundStationsLayer);
-// wwd.addLayer(junkLayer);
-wwd.addLayer(orbitLayer);
+wwd.addLayer(junkLayer);
+// wwd.addLayer(orbitLayer);
 wwd.addLayer(satelliteLayer);
 
 //Responsive altitude on devices
