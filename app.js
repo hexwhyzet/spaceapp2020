@@ -33,23 +33,7 @@ addStationsToLayer(groundStationsLayer, groundStations)
 
 // Orbit Propagation (MIT License, see https://github.com/shashwatak/satellite-js)
 
-var tle_line_1 = '1 39634U 14016A   15092.10425777 -.00000062  00000-0 -35354-5 0  9992'
-var tle_line_2 = '2 39634  98.1809 100.2577 0001271  80.6097 279.5256 14.59197994 52994'
-var satrec = satellite.twoline2satrec(tle_line_1, tle_line_2);
-
 var orbitLayer = new WorldWind.RenderableLayer("Orbit");
-
-addTracesToLayer(orbitLayer, satrec)
-
-var time = new Date();
-var position = getPosition(satrec, time)
-currentPosition = new WorldWind.Position(position.latitude,
-    position.longitude,
-    position.altitude);
-
-var satelliteLayer = new WorldWind.RenderableLayer("Satellite");
-
-addOrbitObjectToLayer(satelliteLayer, currentPosition, "Santinel 1A")
 
 const big_json = [{
     "CCSDS_OMM_VERS": "2.0",
@@ -105,11 +89,11 @@ for (var i = 0; i < big_json.length; i++) {
     var junk_tle_line_2 = json["TLE_LINE2"]
     var junk_satrec = satellite.twoline2satrec(junk_tle_line_1, junk_tle_line_2);
 
-    var junk_position = getPosition(junk_satrec, time)
+    var junk_position = getPosition(junk_satrec, new Date())
 
-    junkPositions.push([junk_position, junk_satrec]);
+    placemark = addOrbitObjectToLayer(junkLayer, junk_position, json["OBJECT_NAME"])
 
-    addOrbitObjectToLayer(junkLayer, junk_position, json["OBJECT_NAME"])
+    junkPositions.push([junk_position, junk_satrec, placemark]);
 }
 
 var catcherLayer = new WorldWind.RenderableLayer("Catcher");
@@ -118,15 +102,18 @@ catchersPositions = []
 
 function createCatcher(groundStation, targetSatrec) {
     var newCatcherPosition = new WorldWind.Position(groundStation.latitude, groundStation.longitude, 1e3)
-    catchersPositions.push([newCatcherPosition, targetSatrec])
-    addOrbitObjectToLayer(catcherLayer, newCatcherPosition, "Catcher", WorldWind.Color.RED, 0.8, 0.8)
+    var placemark = addOrbitObjectToLayer(catcherLayer, newCatcherPosition, "Catcher", WorldWind.Color.RED, 0.5, 0.6)
+    catchersPositions.push([newCatcherPosition, targetSatrec, new Date(), placemark])
 }
 
-function getNewCatcherPosition(catcherPosition, targetPosition) {
+function getNewCatcherPosition(catcherPosition, targetPosition, lastDate) {
     var catcherLocation = new WorldWind.Location(catcherPosition.latitude, catcherPosition.longitude)
     var targetLocation = new WorldWind.Location(targetPosition.latitude, targetPosition.longitude)
+    var distance = WorldWind.Location.greatCircleDistance(targetLocation, catcherLocation);
+    var timeDelta = new Date() - lastDate;
+    var frac = Math.min((timeDelta / 1000 * 0.05) / distance, 0.8)
     var resultLocation = new WorldWind.Location()
-    WorldWind.Location.interpolateGreatCircle(0.01, catcherLocation, targetLocation, resultLocation)
+    WorldWind.Location.interpolateGreatCircle(frac, catcherLocation, targetLocation, resultLocation)
     var newPosition = new WorldWind.Position(resultLocation.latitude, resultLocation.longitude, targetPosition.altitude)
     return newPosition
 }
@@ -143,7 +130,6 @@ wwd.addLayer(groundStationsLayer);
 wwd.addLayer(junkLayer);
 wwd.addLayer(catcherLayer);
 // wwd.addLayer(orbitLayer);
-wwd.addLayer(satelliteLayer);
 
 
 wwd.deepPicking = true;
@@ -180,7 +166,6 @@ var handlePick = function (o) {
                 
             }
 
-console.log(pickList.objects[p])
             if (!pickList.objects[p].isTerrain) {
                 ++numShapesPicked;
             }
@@ -217,8 +202,8 @@ var map = new WorldWind.Globe2D();
 map.projection = new WorldWind.ProjectionEquirectangular();
 
 // Navigation
-wwd.navigator.lookAtLocation = new WorldWind.Location(currentPosition.latitude,
-    currentPosition.longitude);
+// wwd.navigator.lookAtLocation = new WorldWind.Location(currentPosition.latitude,
+//     currentPosition.longitude);
 
 // Draw
 wwd.redraw();
@@ -228,41 +213,32 @@ var follow = false;
 
 createCatcher(groundStations[0], junkPositions[0][1])
 
-window.setInterval(function () {
-    var position = getPosition(satrec, new Date());
-    currentPosition.latitude = position.latitude;
-    currentPosition.longitude = position.longitude;
-    currentPosition.altitude = position.altitude;
-
-    for (var i = 0; i < junkPositions.length; i++) {
+window.setInterval(function () {for (var i = 0; i < junkPositions.length; i++) {
         var newPosition = getPosition(junkPositions[i][1], new Date());
         junkPositions[i][0].latitude = newPosition.latitude;
         junkPositions[i][0].longitude = newPosition.longitude;
         junkPositions[i][0].altitude = newPosition.altitude;
+        junkPositions[i][2].label = junkPositions[i][2].label.split("\n").slice(0, 1) + "\n" + altitudeToString(newPosition.altitude);
     }
 
     for (var i = 0; i < catchersPositions.length; i++) {
         var targetPosition = getPosition(catchersPositions[i][1], new Date());
         var oldCatcherPosition = catchersPositions[i][0];
-        var newPosition = getNewCatcherPosition(oldCatcherPosition, targetPosition);
+        var newPosition = getNewCatcherPosition(oldCatcherPosition, targetPosition, catchersPositions[i][2]);
         oldCatcherPosition.latitude = newPosition.latitude;
         oldCatcherPosition.longitude = newPosition.longitude;
         oldCatcherPosition.altitude = newPosition.altitude;
-    }
-
-    updateLatitudeLongitudeAltitude(currentPosition);
-
-    if (follow) {
-        toCurrentPosition();
+        catchersPositions[i][3].label = catchersPositions[i][3].label.split("\n").slice(0, 1) + "\n" + altitudeToString(newPosition.altitude);
+        catchersPositions[i][2] = new Date();
     }
 
     wwd.redraw();
 }, 100);
 
-function toCurrentPosition() {
-    wwd.navigator.lookAtLocation.latitude = currentPosition.latitude;
-    wwd.navigator.lookAtLocation.longitude = currentPosition.longitude;
-}
+// function toCurrentPosition() {
+//     wwd.navigator.lookAtLocation.latitude = currentPosition.latitude;
+//     wwd.navigator.lookAtLocation.longitude = currentPosition.longitude;
+// }
 
 // Follow Satellite
 var emptyFunction = function (e) {

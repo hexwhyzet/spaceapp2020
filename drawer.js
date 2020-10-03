@@ -70,7 +70,7 @@ function addTracesToLayer(layer, satrec) {
     layer.addRenderable(futureOrbitPath);
 }
 
-function addOrbitObjectToLayer(layer, satellitePosition, label, color=WorldWind.Color.WHITE, imageScale=0.2, labelScale=0.6) {
+function addOrbitObjectToLayer(layer, objectPosition, label, color=WorldWind.Color.WHITE, imageScale=0.2, labelScale=0.65) {
     var placemarkAttributes = new WorldWind.PlacemarkAttributes(null);
     placemarkAttributes.imageSource = "resources/icons/satellite.png";
     placemarkAttributes.imageScale = imageScale;
@@ -87,15 +87,21 @@ function addOrbitObjectToLayer(layer, satellitePosition, label, color=WorldWind.
     var highlightPlacemarkAttributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
     highlightPlacemarkAttributes.imageScale = 1.2;
 
-    var placemark = new WorldWind.Placemark(satellitePosition);
-    updateLatitudeLongitudeAltitude(satellitePosition);
+    var placemark = new WorldWind.Placemark(objectPosition);
+    updateLatitudeLongitudeAltitude(objectPosition);
 
     placemark.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
-    placemark.label = label;
+    placemark.label = label + "\n" + altitudeToString(objectPosition.altitude);
     placemark.attributes = placemarkAttributes;
     placemark.highlightAttributes = highlightPlacemarkAttributes;
 
     layer.addRenderable(placemark);
+
+    return placemark
+}
+
+function altitudeToString(altitude) {
+    return (Math.round(altitude / 10) / 100).toString() + "km"
 }
 
 function getPosition(satrec, time) {
