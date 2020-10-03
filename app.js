@@ -125,6 +125,63 @@ wwd.addLayer(junkLayer);
 // wwd.addLayer(orbitLayer);
 wwd.addLayer(satelliteLayer);
 
+
+wwd.deepPicking = true;
+var highlightedItems = [];
+
+var handlePick = function (o) {
+
+    var x = o.clientX,
+        y = o.clientY;
+
+    var redrawRequired = highlightedItems.length > 0; // must redraw if we de-highlight previously picked items
+
+
+    for (var h = 0; h < highlightedItems.length; h++) {
+        highlightedItems[h].highlighted = false;
+    }
+    highlightedItems = [];
+
+
+    var pickList = wwd.pick(wwd.canvasCoordinates(x, y));
+    if (pickList.objects.length > 0) {
+        redrawRequired = true;
+    }
+
+    if (pickList.objects.length > 0) {
+        var numShapesPicked = 0;
+        for (var p = 0; p < pickList.objects.length; p++) {
+            pickList.objects[p].userObject.highlighted = true;
+
+
+            highlightedItems.push(pickList.objects[p].userObject);
+
+            if (pickList.objects[p].labelPicked) {
+                
+            }
+
+
+            if (!pickList.objects[p].isTerrain) {
+                ++numShapesPicked;
+            }
+        }
+
+        if (numShapesPicked > 0) {
+            console.log(numShapesPicked + " shapes picked");
+        }
+    }
+
+
+    if (redrawRequired) {
+        wwd.redraw();
+    }
+};
+
+wwd.addEventListener("mousemove", handlePick);
+var tapRecognizer = new WorldWind.TapRecognizer(wwd, handlePick);
+
+
+
 //Responsive altitude on devices
 if (screen.width > 900) {
     wwd.navigator.range = 4e7;
