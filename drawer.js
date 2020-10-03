@@ -66,8 +66,8 @@ function addTracesToLayer(layer, satrec) {
     futureOrbitPath.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
     futureOrbitPath.attributes = pathAttributes;
 
-    orbitLayer.addRenderable(pastOrbitPath);
-    orbitLayer.addRenderable(futureOrbitPath);
+    layer.addRenderable(pastOrbitPath);
+    layer.addRenderable(futureOrbitPath);
 }
 
 function addSatelliteToLayer(layer, satellitePosition, label) {
@@ -94,7 +94,7 @@ function addSatelliteToLayer(layer, satellitePosition, label) {
     placemark.attributes = placemarkAttributes;
     placemark.highlightAttributes = highlightPlacemarkAttributes;
 
-    satelliteLayer.addRenderable(placemark);
+    layer.addRenderable(placemark);
 }
 
 function getPosition(satrec, time) {
