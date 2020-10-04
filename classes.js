@@ -106,7 +106,7 @@ class Catcher extends groundObject {
         this.lastUpdate = new Date()
         this.target = target
         this.falling = false
-        this.initPlaceMark("../resources/icons/satellite.png", 0.45, WorldWind.Color.RED, 0.5, WorldWind.Color.RED)
+        this.initPlaceMark("../resources/icons/satellitep.png", 0.45, WorldWind.Color.RED, 0.5, WorldWind.Color.RED)
     }
 
     updatePosition() {
