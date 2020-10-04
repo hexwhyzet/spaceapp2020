@@ -2,12 +2,10 @@ class groundObject {
     position
     placeMark
     name
-    lastUpdate
 
     constructor(name, position) {
         this.name = name
         this.position = position
-        this.lastUpdate = new Date()
         this.initPlaceMark()
     }
 
@@ -57,12 +55,13 @@ class groundObject {
 
 class SpaceObject extends groundObject {
     satrec
-    catched
+    falling
+    fallingStartTime
 
     constructor(name, position, satrec) {
         super(name, position)
         this.satrec = satrec
-        this.catched = false
+        this.falling = false
         this.initPlaceMark("resources/icons/satellite.png", 0.3, WorldWind.Color.WHITE, 0.5, WorldWind.Color.WHITE)
     }
 
@@ -75,10 +74,12 @@ class SpaceObject extends groundObject {
         let newPosition = getPosition(this.satrec, new Date())
         this.position.latitude = newPosition.latitude
         this.position.longitude = newPosition.longitude
-        if (this.catched) {
-            let timeDelta = new Date() - this.lastUpdate
-            this.position.altitude -= timeDelta / 1000 * 500;
-            // console.log(timeDelta / 1000 * 50)
+        if (this.falling) {
+            this.position.altitude -= ((new Date() - this.fallingStartTime) / 1000) ** 2 * 9.8;
+            if (this.position.altitude < 15000) {
+                junkLayer.removeRenderable(this.placeMark)
+                let {distance, falling: falling1, fallingStartTime: fallingStartTime1, getLocation, initPlaceMark, lastUpdate, name, placeMark, position, satrec: satrec1, update: update1, updateLabel, updatePosition: updatePosition1} = this;
+            }
         } else {
             this.position.altitude = newPosition.altitude
         }
@@ -93,11 +94,15 @@ class SpaceObject extends groundObject {
 
 class Catcher extends groundObject {
     target
+    lastUpdate
+    falling
+    fallingStartTime
 
     constructor(name, position, target) {
         super(name, position)
         this.lastUpdate = new Date()
         this.target = target
+        this.falling = false
         this.initPlaceMark("resources/icons/satellite.png", 0.5, WorldWind.Color.RED, 0.5, WorldWind.Color.RED)
     }
 
@@ -112,10 +117,18 @@ class Catcher extends groundObject {
         this.position.latitude = resultLocation.latitude
         this.position.longitude = resultLocation.longitude
         if (this.target.catched) {
-            this.position.altitude -= timeDelta / 1000 * 500;
+            this.position.altitude -= ((new Date() - this.fallingStartTime) / 1000) ** 2 * 9.8;
+            if (this.position.altitude < 15000) {
+                catcherLayer.removeRenderable(this.placeMark)
+                let {distance: distance1, falling: falling1, fallingStartTime: fallingStartTime1, getLocation, initPlaceMark, lastUpdate: lastUpdate1, name, placeMark, position, target: target1, update: update1, updateLabel, updatePosition: updatePosition1} = this;
+            }
         } else {
             this.position.altitude = this.target.position.altitude
             if (this.distance(this.target) < 0.0001) {
+                this.falling = true
+                this.fallingStartTime = new Date()
+                this.target.falling = true
+                this.target.fallingStartTime = new Date()
                 this.target.catched = true;
             }
         }
