@@ -1,9 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
 <head>
-  <title>HTML Meta Tag</title>
-  <meta http-equiv = "refresh" content = "2; url = html_pages/0_vanguard.html" />
+    <meta charset="UTF-8">
+    <title>Simple Sentinel-1A Tracker</title>
+    <link href="style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximun-scale=1.0, minimun-scale=1.0">
 </head>
 <body>
+<input id="page" value="1" style="display: none">
+
+<div class="mainclass">
+    <div class="text_holder">
+        <p>One of the main problems that mankind has encountered in the exploration of near space is the accumulation of failed vehicles and their debris in near-earth orbit. Now the accumulation of these debris in geostationary orbit threatens the further development of humanity in the near space. In total, there is an indefinite amount of debris in the orbits of our planet. For spacecraft launched from Earth, a collision with even a centimeter fragment can lead to fatal consequences, that is, the failure of the spacecraft, its destruction and, consequently, the formation of new debris. Failure of satellites due to collisions with space debris is already a reality. Another danger of space debris threatening human activity is the fall of fragments to the surface of the planet. In contrast to orbital collisions, in this case the main danger is represented by large debris - after all, they have a chance to at least partially fly to the surface without burning up in the upper atmosphere. This game presents several cases when satellites became debris as a result of collisions or inoperability, and the game also demonstrates one of the methods of garbage collection, where the Catcher captures debris and descends with it, burning up in the earth's atmosphere. To catch garbage, you need to select the garbage and click on the Catch button.</p>
+    </div>
+    <div class="Start_button">
+        <a class="buttons" href='html_pages/0_vanguard.html' >Start</a>
+    </div>
+</div>
+<script src="../libraries/worldwind.js"></script>
+<script src="../libraries/satellite.js"></script>
+<script src="../data.js"></script>
+<script src="../classes.js"></script>
+<script src="../drawer.js"></script>
+<script src="../app.js"></script>
 </body>
 </html>
+
