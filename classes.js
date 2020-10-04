@@ -78,7 +78,7 @@ class SpaceObject extends groundObject {
         this.position.longitude = newPosition.longitude
         if (this.falling) {
             this.position.altitude -= ((new Date() - this.fallingStartTime) / 1000) ** 2 * 9.8;
-            if (this.position.altitude < 15000) {
+            if (this.position.altitude < 50000) {
                 junkLayer.removeRenderable(this.placeMark)
                 let {distance, falling: falling1, fallingStartTime: fallingStartTime1, getLocation, initPlaceMark, lastUpdate, name, placeMark, position, satrec: satrec1, update: update1, updateLabel, updatePosition: updatePosition1} = this;
             }
@@ -120,7 +120,7 @@ class Catcher extends groundObject {
         this.position.longitude = resultLocation.longitude
         if (this.target.catched) {
             this.position.altitude -= ((new Date() - this.fallingStartTime) / 1000) ** 2 * 9.8;
-            if (this.position.altitude < 15000) {
+            if (this.position.altitude < 50000) {
                 catcherLayer.removeRenderable(this.placeMark)
                 let {distance: distance1, falling: falling1, fallingStartTime: fallingStartTime1, getLocation, initPlaceMark, lastUpdate: lastUpdate1, name, placeMark, position, target: target1, update: update1, updateLabel, updatePosition: updatePosition1} = this;
             }
