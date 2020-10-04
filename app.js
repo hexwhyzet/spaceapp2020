@@ -140,7 +140,9 @@ wwd.addLayer(groundStationsLayer);
 wwd.addLayer(junkLayer);
 wwd.addLayer(catcherLayer);
 
-// clearPage()
+if (number == 0) {
+    pointToObject(junkObjects[0])
+}
 
 wwd.deepPicking = true;
 var highlightedItems = [];
@@ -196,9 +198,9 @@ window.setInterval(function () {
     wwd.redraw();
 }, 100);
 
-function toLastCatcher() {
-    wwd.navigator.lookAtLocation.latitude = catcherObjects[catcherObjects.length - 1].latitude;
-    wwd.navigator.lookAtLocation.longitude = catcherObjects[catcherObjects.length - 1].longitude;
+function pointToObject(object) {
+    wwd.navigator.lookAtLocation.latitude = object.position.latitude;
+    wwd.navigator.lookAtLocation.longitude = object.position.longitude;
 }
 
 // Follow Satellite
