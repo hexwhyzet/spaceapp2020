@@ -1,17 +1,20 @@
 var selectedObject = null;
-var infoBlock = document.getElementById('info')
-var name = document.getElementById('name');
 
 function updateInfoObject(object) {
-    document.getElementById('info').style.display = "visible"
-    console.log(object.json)
+    selectedObject = object
+    // document.getElementById('info').style.display = "visible"
     document.getElementById('name').textContent = object.name.toString()
     document.getElementById('country').textContent = object.json["COUNTRY_CODE"]
     document.getElementById('date').textContent = object.json["LAUNCH_DATE"]
     document.getElementById('motion').textContent = object.json["MEAN_MOTION"]
     document.getElementById('inclination').textContent = object.json["INCLINATION"]
     document.getElementById('period').textContent = object.json["PERIOD"]
+    document.getElementById('button').style.visibility = "visible"
 }
+
+document.getElementById("button").addEventListener("click", function() {
+    createCatcher(groundObjects[0], selectedObject)
+});
 
 var bmngOneImageLayer = new WorldWind.BMNGOneImageLayer();
 var bmngLayer = new WorldWind.BMNGLayer();
