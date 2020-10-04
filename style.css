@@ -7,76 +7,186 @@ body {
     color: #FFF !important;
     background-color: #000 !important;
     line-height: 1.3em;
+    overflow: hidden;
 }
+
 h1 {
     text-align: center;
     line-height: 1.2em;
     margin: 0;
     font-size: 32px;
 }
+
 p {
     text-align: center;
     font-size: 16px;
     color: #FFF;
     line-height: 1.2em;
-    margin-top: 0 ;
+    margin-top: 0;
     margin-bottom: 0;
 }
+
 a {
     color: lightblue;
 }
+
 a:hover {
     text-decoration: none;
 }
+
 canvas {
-  padding: 0;
-  margin: auto;
-  display: block;
-  width: 100%;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index:-2;}
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -2;
+}
+
 footer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  justify-content: center;
-  display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    display: flex;
 }
+
 .container {
-  width: 80%;
-  max-width: 1300px;
-  display: flex;
-  justify-content: center;
-  margin: 0 auto;
-  overflow: hidden;
+    width: 80%;
+    max-width: 1300px;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    overflow: hidden;
 }
+
 .ghost-box {
-  background-color: rgba(17, 17, 17, 0.35);
-  padding: 1em 1.5em 1em 1.5em;
-  margin: 1em;
-  border-radius: 5em;
+    background-color: rgba(17, 17, 17, 0.35);
+    padding: 1em 1.5em 1em 1.5em;
+    margin: 1em;
+    border-radius: 5em;
 }
 
 /*Responsive..................................................................*/
 
 @media (max-width: 750px) {
-  h1 {
-    font-size: 20px;
-  }
-  p {
-    font-size: 13px;
-  }
-  .container {
-    width: 95%;
-  }
-  .ghost-box {
-    padding: 1em;
-    border-radius: 2em;
-  }
+    h1 {
+        font-size: 20px;
+    }
+
+    p {
+        font-size: 13px;
+    }
+
+    .container {
+        width: 95%;
+    }
+
+    .ghost-box {
+        padding: 1em;
+        border-radius: 2em;
+    }
 }
+
+
+/* ----- Front   ------- */
+
+@font-face {
+    font-family: "Barlow";
+    font-weight: normal;
+    font-style: normal;
+    src: url("./resources/fonts/Barlow/Barlow-Medium.ttf");
+}
+
+/* ----- Sidebar ------- */
+
+.article-box {
+    font-family: Barlow;
+    font-size: 30px;
+    padding: 30px;
+    position: absolute;
+    right: 0;
+    width: 26%;
+    background-color: rgba(35, 37, 43, 0.5);
+    height: 100%;
+}
+
+.article-box h2 {
+    text-align: center;
+}
+
+.article-box p {
+    font-size: 30px;
+}
+
+/*.sidebar,*/
+/*.container-inner {*/
+/*    float: left;*/
+/*    display: inline-block;*/
+/*}*/
+/*.sidebar {*/
+/*    position: fixed;*/
+/*    left: 0;*/
+/*    top: 0;*/
+/*    width: 30%;*/
+/*    background-color: #303030;*/
+/*    z-index: 99;*/
+/*}*/
+/*.sidebar .show_hide {*/
+/*    position: absolute;*/
+/*    right: -30px;*/
+/*    top: 0;*/
+/*    background-color: #545454;*/
+/*    height: 30px;*/
+/*    width: 30px;*/
+/*    padding: 5px;*/
+/*    cursor: pointer;*/
+/*}*/
+/*.sidebar .show_hide:hover {*/
+/*    background-color: #5D5C5C;*/
+/*}*/
+/*.sidebar .show_hide .bar {*/
+/*    display: block;*/
+/*    width: 95%;*/
+/*    border-bottom: 4px solid #969191;*/
+/*    margin-bottom: 4px;*/
+/*}*/
+/*.container-inner {*/
+/*    position: relative;*/
+/*    left: 30%;*/
+/*    width: 70%;*/
+/*    top: 0;*/
+/*    padding: 35px 15px 15px 15px;*/
+/*}*/
+/*.sidebar ul.menu {*/
+/*    list-style: none;*/
+/*}*/
+/*.sidebar ul.menu,*/
+/*.sidebar ul.menu > li,*/
+/*.sidebar ul.menu > li > a {*/
+/*    width: 100%;*/
+/*    float: left;*/
+/*    display: block;*/
+/*}*/
+/*.sidebar ul.menu > li > a {*/
+/*    padding: 15px 0;*/
+/*    text-align: center;*/
+/*    color: rgb(255, 255, 255);*/
+/*    text-decoration: none;*/
+/*    font-size: 11pt;*/
+/*}*/
+/*.sidebar ul.menu > li > a:hover,*/
+/*.sidebar ul.menu > li > a:focus,*/
+/*.sidebar ul.menu > li > a:active {*/
+/*    background-color: rgb(78, 78, 78);*/
+/*}*/
+
+/*.sidebar ul.menu {*/
+/*    list-style: none;*/
+/*}*/
