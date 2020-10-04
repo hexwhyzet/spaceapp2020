@@ -48,7 +48,7 @@ function ConstructPage(number) {
             junkObjects = []
             catcherObjects = []
 
-            const json = fengyun
+            const json = westford
 
             for (var i = 0; i < json.length; i++) {
                 var json_elem = json[i];
@@ -60,7 +60,7 @@ function ConstructPage(number) {
             junkObjects = []
             catcherObjects = []
 
-            const json = westford
+            const json = fengyun
 
             for (var i = 0; i < json.length; i++) {
                 var json_elem = json[i];
@@ -110,7 +110,9 @@ function clearPage() {
     }
 }
 
-ConstructPage(0)
+number = parseInt(document.getElementById('page').value)
+console.log(number)
+ConstructPage(number)
 
 addObjectsToLayer(groundStationsLayer, groundObjects)
 addObjectsToLayer(junkLayer, junkObjects)
@@ -182,10 +184,10 @@ window.setInterval(function () {
     wwd.redraw();
 }, 100);
 
-// function toCurrentPosition() {
-//     wwd.navigator.lookAtLocation.latitude = currentPosition.latitude;
-//     wwd.navigator.lookAtLocation.longitude = currentPosition.longitude;
-// }
+function toLastCatcher() {
+    wwd.navigator.lookAtLocation.latitude = catcherObjects[catcherObjects.length - 1].latitude;
+    wwd.navigator.lookAtLocation.longitude = catcherObjects[catcherObjects.length - 1].longitude;
+}
 
 // Follow Satellite
 var emptyFunction = function (e) {
