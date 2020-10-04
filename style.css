@@ -133,3 +133,16 @@ footer {
 .article-box p {
     font-size: 30px;
 }
+
+.right_arrow {
+    font-family: Barlow;
+    position: absolute;
+    font-size: 50px;
+    padding: 70px;
+    right: 0;
+    bottom: 0;
+}
+
+a {
+    text-decoration: none;
+}
