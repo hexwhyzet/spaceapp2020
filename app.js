@@ -16,14 +16,23 @@ var groundStationsLayer = new WorldWind.RenderableLayer("Ground Stations");
 var junkLayer = new WorldWind.RenderableLayer("Junk");
 var catcherLayer = new WorldWind.RenderableLayer("Catcher");
 
+groundObjects = [
+    new groundObject('Baikonur, Kazakhstan', new WorldWind.Position(45.57, 63.18)),
+    new groundObject('Plesetsk, Russia', new WorldWind.Position(62.7, 40.29)),
+    new groundObject('San Marco, Italy', new WorldWind.Position(41.42, 15.48)),
+    new groundObject('Kodiak Island, USA', new WorldWind.Position(57.47, -152.24)),
+    new groundObject('Woomera, Australia', new WorldWind.Position(-31.11, 136.49)),
+    new groundObject('Taiyuan, China', new WorldWind.Position(37.86, 112.56)),
+    new groundObject('Hammaguir, Algeria', new WorldWind.Position(30.88, -3.03)),
+    new groundObject('Kourou, French Guiana', new WorldWind.Position(5.16, -52.64)),
+    new groundObject('Sriharikota, India', new WorldWind.Position(13.72, 80.23)),
+    new groundObject('Svobodny, Russia', new WorldWind.Position(51.37, 128.14)),
+
+]
+
 function ConstructPage(number) {
     switch (number) {
         case 0: {
-            groundObjects = [
-                new groundObject('Matera, Italy', new WorldWind.Position(40.65, 16.7)),
-                new groundObject('Svalbard, Norway', new WorldWind.Position(78.2306, 15.3894)),
-                new groundObject('Maspalomas, Spain', new WorldWind.Position(27.7629, -15.6338)),
-            ]
             junkObjects = []
             catcherObjects = []
 
@@ -36,11 +45,6 @@ function ConstructPage(number) {
             break;
         }
         case 1: {
-            groundObjects = [
-                new groundObject('Matera, Italy', new WorldWind.Position(40.65, 16.7)),
-                new groundObject('Svalbard, Norway', new WorldWind.Position(78.2306, 15.3894)),
-                new groundObject('Maspalomas, Spain', new WorldWind.Position(27.7629, -15.6338)),
-            ]
             junkObjects = []
             catcherObjects = []
 
@@ -53,11 +57,6 @@ function ConstructPage(number) {
             break;
         }
         case 2: {
-            groundObjects = [
-                new groundObject('Matera, Italy', new WorldWind.Position(40.65, 16.7)),
-                new groundObject('Svalbard, Norway', new WorldWind.Position(78.2306, 15.3894)),
-                new groundObject('Maspalomas, Spain', new WorldWind.Position(27.7629, -15.6338)),
-            ]
             junkObjects = []
             catcherObjects = []
 
@@ -70,11 +69,6 @@ function ConstructPage(number) {
             break;
         }
         case 3: {
-            groundObjects = [
-                new groundObject('Matera, Italy', new WorldWind.Position(40.65, 16.7)),
-                new groundObject('Svalbard, Norway', new WorldWind.Position(78.2306, 15.3894)),
-                new groundObject('Maspalomas, Spain', new WorldWind.Position(27.7629, -15.6338)),
-            ]
             junkObjects = []
             catcherObjects = []
 
@@ -87,11 +81,6 @@ function ConstructPage(number) {
             break;
         }
         case 4: {
-            groundObjects = [
-                new groundObject('Matera, Italy', new WorldWind.Position(40.65, 16.7)),
-                new groundObject('Svalbard, Norway', new WorldWind.Position(78.2306, 15.3894)),
-                new groundObject('Maspalomas, Spain', new WorldWind.Position(27.7629, -15.6338)),
-            ]
             junkObjects = []
             catcherObjects = []
 
@@ -126,8 +115,6 @@ ConstructPage(0)
 addObjectsToLayer(groundStationsLayer, groundObjects)
 addObjectsToLayer(junkLayer, junkObjects)
 addObjectsToLayer(catcherLayer, catcherObjects)
-
-createCatcher(groundObjects[0], junkObjects[0]);
 
 var wwd = new WorldWind.WorldWindow("wwd");
 wwd.drawContext.clearColor = WorldWind.Color.colorFromBytes(0, 0, 0, 0);

@@ -42,8 +42,8 @@ class groundObject {
         placemarkAttributes.labelAttributes.scale = labelScale;
 
         let highlightPlacemarkAttributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
-        highlightPlacemarkAttributes.imageScale = imageScale * 1.75;
-        highlightPlacemarkAttributes.labelAttributes.scale = labelScale * 1.75;
+        highlightPlacemarkAttributes.imageScale = imageScale * 2;
+        highlightPlacemarkAttributes.labelAttributes.scale = labelScale * 2;
 
         this.placeMark = new WorldWind.Placemark(this.position);
         this.placeMark.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
@@ -63,7 +63,7 @@ class SpaceObject extends groundObject {
         super(name, position)
         this.satrec = satrec
         this.falling = false
-        this.initPlaceMark("../resources/icons/satellite.png", 0.3, WorldWind.Color.WHITE, 0.5, WorldWind.Color.WHITE)
+        this.initPlaceMark("../resources/icons/satellite.png", 0.35, WorldWind.Color.WHITE, 0.5, WorldWind.Color.WHITE)
     }
 
     static fromJson(json) {
@@ -105,7 +105,7 @@ class Catcher extends groundObject {
         this.lastUpdate = new Date()
         this.target = target
         this.falling = false
-        this.initPlaceMark("../resources/icons/satellite.png", 0.5, WorldWind.Color.RED, 0.5, WorldWind.Color.RED)
+        this.initPlaceMark("../resources/icons/satellite.png", 0.45, WorldWind.Color.RED, 0.5, WorldWind.Color.RED)
     }
 
     updatePosition() {
