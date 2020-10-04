@@ -58,11 +58,13 @@ class SpaceObject extends groundObject {
     falling
     fallingStartTime
     json
+    isCatched
 
     constructor(name, position, satrec) {
         super(name, position)
         this.satrec = satrec
         this.falling = false
+        this.isCatched = false
         this.initPlaceMark("../resources/icons/satellitep.png", 0.35, WorldWind.Color.WHITE, 0.5, WorldWind.Color.WHITE)
     }
 
@@ -105,6 +107,7 @@ class Catcher extends groundObject {
         super(name, position)
         this.lastUpdate = new Date()
         this.target = target
+        this.target.isCatched = true
         this.falling = false
         this.initPlaceMark("../resources/icons/satellitep.png", 0.45, WorldWind.Color.RED, 0.5, WorldWind.Color.RED)
     }
