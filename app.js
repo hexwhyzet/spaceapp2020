@@ -1,12 +1,5 @@
 var selectedObject = null;
 
-var catchCounter = 0
-
-function incrementCatchCounter() {
-    catchCounter++
-    document.getElementById('counter').textContent = catchCounter.toString()
-}
-
 function updateInfoObject(object) {
     selectedObject = object
     // document.getElementById('info').style.display = "visible"

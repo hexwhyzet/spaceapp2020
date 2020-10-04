@@ -203,6 +203,10 @@ a {
     padding: 20px;
     font-weight: bold;
     font-size: 40px !important;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none;
 }
 a.buttons {
     border-radius: 25px;
