@@ -143,6 +143,15 @@ footer {
     bottom: 0;
 }
 
+.left_arrow {
+    font-family: Barlow;
+    position: absolute;
+    font-size: 50px;
+    padding: 70px;
+    left: 0;
+    bottom: 0;
+}
+
 a {
     text-decoration: none;
 }
