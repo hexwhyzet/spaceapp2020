@@ -58,6 +58,11 @@ function altitudeToString(altitude) {
     return (Math.round(altitude / 10) / 100).toString() + "km"
 }
 
+function createCatcher(groundObj, targetObj) {
+    catcherObjects.push(new Catcher("Catcher", new WorldWind.Position(groundObj.position.latitude, groundObj.position.longitude, 1e3), targetObj))
+    addObjectsToLayer(catcherLayer, catcherObjects)
+}
+
 function getPosition(satrec, time) {
     var position_and_velocity = satellite.propagate(satrec,
         time.getUTCFullYear(),

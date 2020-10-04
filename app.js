@@ -16,236 +16,102 @@ var groundStationsLayer = new WorldWind.RenderableLayer("Ground Stations");
 var junkLayer = new WorldWind.RenderableLayer("Junk");
 var catcherLayer = new WorldWind.RenderableLayer("Catcher");
 
-groundObjects = [
-    new groundObject('Matera, Italy', new WorldWind.Position(40.65, 16.7)),
-    new groundObject('Svalbard, Norway', new WorldWind.Position(78.2306, 15.3894)),
-    new groundObject('Maspalomas, Spain', new WorldWind.Position(27.7629, -15.6338)),
-]
-junkObjects = []
-catcherObjects = []
+function ConstructPage(number) {
+    switch (number) {
+        case 0: {
+            groundObjects = [
+                new groundObject('Matera, Italy', new WorldWind.Position(40.65, 16.7)),
+                new groundObject('Svalbard, Norway', new WorldWind.Position(78.2306, 15.3894)),
+                new groundObject('Maspalomas, Spain', new WorldWind.Position(27.7629, -15.6338)),
+            ]
+            junkObjects = []
+            catcherObjects = []
 
-const big_json = [
-    {
-    "CCSDS_OMM_VERS": "2.0",
-    "COMMENT": "GENERATED VIA SPACE-TRACK.ORG API",
-    "CREATION_DATE": "2020-10-03T04:36:52",
-    "ORIGINATOR": "18 SPCS",
-    "OBJECT_NAME": "STARLINK-1288",
-    "OBJECT_ID": "2020-019N",
-    "CENTER_NAME": "EARTH",
-    "REF_FRAME": "TEME",
-    "TIME_SYSTEM": "UTC",
-    "MEAN_ELEMENT_THEORY": "SGP4",
-    "EPOCH": "2020-10-02T22:00:00.999936",
-    "MEAN_MOTION": "15.05559606",
-    "ECCENTRICITY": "0.00014390",
-    "INCLINATION": "53.0007",
-    "RA_OF_ASC_NODE": "72.1220",
-    "ARG_OF_PERICENTER": "90.3945",
-    "MEAN_ANOMALY": "80.0162",
-    "EPHEMERIS_TYPE": "0",
-    "CLASSIFICATION_TYPE": "U",
-    "NORAD_CAT_ID": "45372",
-    "ELEMENT_SET_NO": "999",
-    "REV_AT_EPOCH": "175",
-    "BSTAR": "0.00253380000000",
-    "MEAN_MOTION_DOT": "0.00036811",
-    "MEAN_MOTION_DDOT": "0.0000000000000",
-    "SEMIMAJOR_AXIS": "6927.925",
-    "PERIOD": "95.645",
-    "APOAPSIS": "550.787",
-    "PERIAPSIS": "548.793",
-    "OBJECT_TYPE": "PAYLOAD",
-    "RCS_SIZE": "LARGE",
-    "COUNTRY_CODE": "US",
-    "LAUNCH_DATE": "2020-03-18",
-    "SITE": "AFETR",
-    "DECAY_DATE": null,
-    "FILE": "2840435",
-    "GP_ID": "162646467",
-    "TLE_LINE0": "0 STARLINK-1288",
-    "TLE_LINE1": "1 45372U 20019N   20276.91667824 +.00036811 +00000-0 +25338-2 0  9995",
-    "TLE_LINE2": "2 45372 053.0007 072.1220 0001439 090.3945 080.0162 15.05559606001751"
-}, {
-    "CCSDS_OMM_VERS": "2.0",
-    "COMMENT": "GENERATED VIA SPACE-TRACK.ORG API",
-    "CREATION_DATE": "2020-10-03T04:36:52",
-    "ORIGINATOR": "18 SPCS",
-    "OBJECT_NAME": "STARLINK-1295",
-    "OBJECT_ID": "2020-019P",
-    "CENTER_NAME": "EARTH",
-    "REF_FRAME": "TEME",
-    "TIME_SYSTEM": "UTC",
-    "MEAN_ELEMENT_THEORY": "SGP4",
-    "EPOCH": "2020-10-02T22:00:00.999936",
-    "MEAN_MOTION": "15.05586517",
-    "ECCENTRICITY": "0.00013900",
-    "INCLINATION": "53.0000",
-    "RA_OF_ASC_NODE": "72.1211",
-    "ARG_OF_PERICENTER": "86.5710",
-    "MEAN_ANOMALY": "173.8265",
-    "EPHEMERIS_TYPE": "0",
-    "CLASSIFICATION_TYPE": "U",
-    "NORAD_CAT_ID": "45373",
-    "ELEMENT_SET_NO": "999",
-    "REV_AT_EPOCH": "175",
-    "BSTAR": "0.00236530000000",
-    "MEAN_MOTION_DOT": "0.00034357",
-    "MEAN_MOTION_DDOT": "0.0000000000000",
-    "SEMIMAJOR_AXIS": "6927.842",
-    "PERIOD": "95.643",
-    "APOAPSIS": "550.670",
-    "PERIAPSIS": "548.744",
-    "OBJECT_TYPE": "PAYLOAD",
-    "RCS_SIZE": "LARGE",
-    "COUNTRY_CODE": "US",
-    "LAUNCH_DATE": "2020-03-18",
-    "SITE": "AFETR",
-    "DECAY_DATE": null,
-    "FILE": "2840435",
-    "GP_ID": "162646684",
-    "TLE_LINE0": "0 STARLINK-1295",
-    "TLE_LINE1": "1 45373U 20019P   20276.91667824 +.00034357 +00000-0 +23653-2 0  9997",
-    "TLE_LINE2": "2 45373 053.0000 072.1211 0001390 086.5710 173.8265 15.05586517001754"
-}, {
-    "CCSDS_OMM_VERS": "2.0",
-    "COMMENT": "GENERATED VIA SPACE-TRACK.ORG API",
-    "CREATION_DATE": "2020-10-03T04:36:52",
-    "ORIGINATOR": "18 SPCS",
-    "OBJECT_NAME": "STARLINK-1300",
-    "OBJECT_ID": "2020-019Q",
-    "CENTER_NAME": "EARTH",
-    "REF_FRAME": "TEME",
-    "TIME_SYSTEM": "UTC",
-    "MEAN_ELEMENT_THEORY": "SGP4",
-    "EPOCH": "2020-10-02T22:00:00.999936",
-    "MEAN_MOTION": "15.05568367",
-    "ECCENTRICITY": "0.00013940",
-    "INCLINATION": "53.0003",
-    "RA_OF_ASC_NODE": "72.1244",
-    "ARG_OF_PERICENTER": "91.6697",
-    "MEAN_ANOMALY": "186.7565",
-    "EPHEMERIS_TYPE": "0",
-    "CLASSIFICATION_TYPE": "U",
-    "NORAD_CAT_ID": "45374",
-    "ELEMENT_SET_NO": "999",
-    "REV_AT_EPOCH": "175",
-    "BSTAR": "0.00235380000000",
-    "MEAN_MOTION_DOT": "0.00034171",
-    "MEAN_MOTION_DDOT": "0.0000000000000",
-    "SEMIMAJOR_AXIS": "6927.898",
-    "PERIOD": "95.644",
-    "APOAPSIS": "550.729",
-    "PERIAPSIS": "548.797",
-    "OBJECT_TYPE": "PAYLOAD",
-    "RCS_SIZE": "LARGE",
-    "COUNTRY_CODE": "US",
-    "LAUNCH_DATE": "2020-03-18",
-    "SITE": "AFETR",
-    "DECAY_DATE": null,
-    "FILE": "2840435",
-    "GP_ID": "162646761",
-    "TLE_LINE0": "0 STARLINK-1300",
-    "TLE_LINE1": "1 45374U 20019Q   20276.91667824 +.00034171 +00000-0 +23538-2 0  9994",
-    "TLE_LINE2": "2 45374 053.0003 072.1244 0001394 091.6697 186.7565 15.05568367001758"
-}, {
-    "CCSDS_OMM_VERS": "2.0",
-    "COMMENT": "GENERATED VIA SPACE-TRACK.ORG API",
-    "CREATION_DATE": "2020-10-03T06:56:10",
-    "ORIGINATOR": "18 SPCS",
-    "OBJECT_NAME": "STARLINK-1302",
-    "OBJECT_ID": "2020-019R",
-    "CENTER_NAME": "EARTH",
-    "REF_FRAME": "TEME",
-    "TIME_SYSTEM": "UTC",
-    "MEAN_ELEMENT_THEORY": "SGP4",
-    "EPOCH": "2020-10-03T06:00:02.000160",
-    "MEAN_MOTION": "15.05558265",
-    "ECCENTRICITY": "0.00013370",
-    "INCLINATION": "52.9996",
-    "RA_OF_ASC_NODE": "70.6222",
-    "ARG_OF_PERICENTER": "101.1688",
-    "MEAN_ANOMALY": "113.0352",
-    "EPHEMERIS_TYPE": "0",
-    "CLASSIFICATION_TYPE": "U",
-    "NORAD_CAT_ID": "45375",
-    "ELEMENT_SET_NO": "999",
-    "REV_AT_EPOCH": "3078",
-    "BSTAR": "0.00185290000000",
-    "MEAN_MOTION_DOT": "0.00026804",
-    "MEAN_MOTION_DDOT": "0.0000000000000",
-    "SEMIMAJOR_AXIS": "6927.929",
-    "PERIOD": "95.645",
-    "APOAPSIS": "550.720",
-    "PERIAPSIS": "548.868",
-    "OBJECT_TYPE": "PAYLOAD",
-    "RCS_SIZE": "LARGE",
-    "COUNTRY_CODE": "US",
-    "LAUNCH_DATE": "2020-03-18",
-    "SITE": "AFETR",
-    "DECAY_DATE": null,
-    "FILE": "2840879",
-    "GP_ID": "162658339",
-    "TLE_LINE0": "0 STARLINK-1302",
-    "TLE_LINE1": "1 45375U 20019R   20277.25002315  .00026804  00000-0  18529-2 0  9999",
-    "TLE_LINE2": "2 45375  52.9996  70.6222 0001337 101.1688 113.0352 15.05558265 30789"
-}, {
-    "CCSDS_OMM_VERS": "2.0",
-    "COMMENT": "GENERATED VIA SPACE-TRACK.ORG API",
-    "CREATION_DATE": "2020-10-03T06:56:10",
-    "ORIGINATOR": "18 SPCS",
-    "OBJECT_NAME": "STARLINK-1304",
-    "OBJECT_ID": "2020-019S",
-    "CENTER_NAME": "EARTH",
-    "REF_FRAME": "TEME",
-    "TIME_SYSTEM": "UTC",
-    "MEAN_ELEMENT_THEORY": "SGP4",
-    "EPOCH": "2020-10-03T06:00:02.000160",
-    "MEAN_MOTION": "15.05594431",
-    "ECCENTRICITY": "0.00012640",
-    "INCLINATION": "52.9984",
-    "RA_OF_ASC_NODE": "70.6231",
-    "ARG_OF_PERICENTER": "105.5537",
-    "MEAN_ANOMALY": "18.6666",
-    "EPHEMERIS_TYPE": "0",
-    "CLASSIFICATION_TYPE": "U",
-    "NORAD_CAT_ID": "45376",
-    "ELEMENT_SET_NO": "999",
-    "REV_AT_EPOCH": "3078",
-    "BSTAR": "0.00014061000000",
-    "MEAN_MOTION_DOT": "0.00001771",
-    "MEAN_MOTION_DDOT": "0.0000000000000",
-    "SEMIMAJOR_AXIS": "6927.818",
-    "PERIOD": "95.643",
-    "APOAPSIS": "550.559",
-    "PERIAPSIS": "548.807",
-    "OBJECT_TYPE": "PAYLOAD",
-    "RCS_SIZE": "LARGE",
-    "COUNTRY_CODE": "US",
-    "LAUNCH_DATE": "2020-03-18",
-    "SITE": "AFETR",
-    "DECAY_DATE": null,
-    "FILE": "2840889",
-    "GP_ID": "162658874",
-    "TLE_LINE0": "0 STARLINK-1304",
-    "TLE_LINE1": "1 45376U 20019S   20277.25002315  .00001771  00000-0  14061-3 0  9994",
-    "TLE_LINE2": "2 45376  52.9984  70.6231 0001264 105.5537  18.6666 15.05594431 30780"
-}
-]
+            const json = vanguard
 
-for (var i = 0; i < big_json.length; i++) {
-    var json = big_json[i];
-    junkObjects.push(SpaceObject.fromJson(json))
+            for (var i = 0; i < json.length; i++) {
+                var json_elem = json[i];
+                junkObjects.push(SpaceObject.fromJson(json_elem))
+            }
+            break;
+        }
+        case 1: {
+            groundObjects = [
+                new groundObject('Matera, Italy', new WorldWind.Position(40.65, 16.7)),
+                new groundObject('Svalbard, Norway', new WorldWind.Position(78.2306, 15.3894)),
+                new groundObject('Maspalomas, Spain', new WorldWind.Position(27.7629, -15.6338)),
+            ]
+            junkObjects = []
+            catcherObjects = []
+
+            const json = fengyun
+
+            for (var i = 0; i < json.length; i++) {
+                var json_elem = json[i];
+                junkObjects.push(SpaceObject.fromJson(json_elem))
+            }
+            break;
+        }
+        case 2: {
+            groundObjects = [
+                new groundObject('Matera, Italy', new WorldWind.Position(40.65, 16.7)),
+                new groundObject('Svalbard, Norway', new WorldWind.Position(78.2306, 15.3894)),
+                new groundObject('Maspalomas, Spain', new WorldWind.Position(27.7629, -15.6338)),
+            ]
+            junkObjects = []
+            catcherObjects = []
+
+            const json = westford
+
+            for (var i = 0; i < json.length; i++) {
+                var json_elem = json[i];
+                junkObjects.push(SpaceObject.fromJson(json_elem))
+            }
+            break;
+        }
+        case 3: {
+            groundObjects = [
+                new groundObject('Matera, Italy', new WorldWind.Position(40.65, 16.7)),
+                new groundObject('Svalbard, Norway', new WorldWind.Position(78.2306, 15.3894)),
+                new groundObject('Maspalomas, Spain', new WorldWind.Position(27.7629, -15.6338)),
+            ]
+            junkObjects = []
+            catcherObjects = []
+
+            const json = cosmos_iridium
+
+            for (var i = 0; i < json.length; i++) {
+                var json_elem = json[i];
+                junkObjects.push(SpaceObject.fromJson(json_elem))
+            }
+            break;
+        }
+        case 4: {
+            groundObjects = [
+                new groundObject('Matera, Italy', new WorldWind.Position(40.65, 16.7)),
+                new groundObject('Svalbard, Norway', new WorldWind.Position(78.2306, 15.3894)),
+                new groundObject('Maspalomas, Spain', new WorldWind.Position(27.7629, -15.6338)),
+            ]
+            junkObjects = []
+            catcherObjects = []
+
+            const json = starlink
+
+            for (var i = 0; i < json.length; i++) {
+                var json_elem = json[i];
+                junkObjects.push(SpaceObject.fromJson(json_elem))
+            }
+            break;
+        }
+    }
 }
+
+ConstructPage(0)
 
 addObjectsToLayer(groundStationsLayer, groundObjects)
 addObjectsToLayer(junkLayer, junkObjects)
 addObjectsToLayer(catcherLayer, catcherObjects)
 
-function createCatcher(groundObj, targetObj) {
-    catcherObjects.push(new Catcher("Catcher", new WorldWind.Position(groundObj.position.latitude, groundObj.position.longitude, 1e3), targetObj))
-    addObjectsToLayer(catcherLayer, catcherObjects)
-}
 
 var wwd = new WorldWind.WorldWindow("wwd");
 wwd.drawContext.clearColor = WorldWind.Color.colorFromBytes(0, 0, 0, 0);
