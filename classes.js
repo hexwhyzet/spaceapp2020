@@ -57,6 +57,7 @@ class SpaceObject extends groundObject {
     satrec
     falling
     fallingStartTime
+    json
 
     constructor(name, position, satrec) {
         super(name, position)
@@ -66,6 +67,7 @@ class SpaceObject extends groundObject {
     }
 
     static fromJson(json) {
+        this.json = json
         var satrec = satellite.twoline2satrec(json["TLE_LINE1"], json["TLE_LINE2"])
         return new this(json["OBJECT_NAME"], getPosition(satrec, new Date()), satrec)
     }
