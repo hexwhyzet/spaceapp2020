@@ -1,9 +1,3 @@
-// This is a minimal satellite tracker web app built around Web WorldWind and Satellite.js
-// based around Yann Voumard's work: https://github.com/AkeluX
-
-// import data from "./data/junk_elem_example.json"
-
-// Update latitude, longitude and altitude in the DOM
 var latitudePlaceholder = document.getElementById('latitude');
 var longitudePlaceholder = document.getElementById('longitude');
 var altitudePlaceholder = document.getElementById('altitude');
@@ -14,28 +8,24 @@ function updateLatitudeLongitudeAltitude(position) {
     altitudePlaceholder.textContent = (Math.round(position.altitude / 10) / 100) + "km";
 }
 
-// WorldWind's base Layers
 var bmngOneImageLayer = new WorldWind.BMNGOneImageLayer();
 var bmngLayer = new WorldWind.BMNGLayer();
 var atmosphereLayer = new WorldWind.AtmosphereLayer();
 var starfieldLayer = new WorldWind.StarFieldLayer();
-
-// Ground Stations Layer
-var groundStations = [
-    {name: 'Matera, Italy', latitude: 40.65, longitude: 16.7},
-    {name: 'Svalbard, Norway', latitude: 78.2306, longitude: 15.3894},
-    {name: 'Maspalomas, Spain', latitude: 27.7629, longitude: -15.6338},
-];
-
 var groundStationsLayer = new WorldWind.RenderableLayer("Ground Stations");
+var junkLayer = new WorldWind.RenderableLayer("Junk");
+var catcherLayer = new WorldWind.RenderableLayer("Catcher");
 
-addStationsToLayer(groundStationsLayer, groundStations)
+groundObjects = [
+    new groundObject('Matera, Italy', new WorldWind.Position(40.65, 16.7)),
+    new groundObject('Svalbard, Norway', new WorldWind.Position(78.2306, 15.3894)),
+    new groundObject('Maspalomas, Spain', new WorldWind.Position(27.7629, -15.6338)),
+]
+junkObjects = []
+catcherObjects = []
 
-// Orbit Propagation (MIT License, see https://github.com/shashwatak/satellite-js)
-
-var orbitLayer = new WorldWind.RenderableLayer("Orbit");
-
-const big_json = [{
+const big_json = [
+    {
     "CCSDS_OMM_VERS": "2.0",
     "COMMENT": "GENERATED VIA SPACE-TRACK.ORG API",
     "CREATION_DATE": "2020-10-03T04:36:52",
@@ -76,50 +66,187 @@ const big_json = [{
     "TLE_LINE0": "0 STARLINK-1288",
     "TLE_LINE1": "1 45372U 20019N   20276.91667824 +.00036811 +00000-0 +25338-2 0  9995",
     "TLE_LINE2": "2 45372 053.0007 072.1220 0001439 090.3945 080.0162 15.05559606001751"
-}]
-
-var junkLayer = new WorldWind.RenderableLayer("Junk");
-
-junkPositions = []
+}, {
+    "CCSDS_OMM_VERS": "2.0",
+    "COMMENT": "GENERATED VIA SPACE-TRACK.ORG API",
+    "CREATION_DATE": "2020-10-03T04:36:52",
+    "ORIGINATOR": "18 SPCS",
+    "OBJECT_NAME": "STARLINK-1295",
+    "OBJECT_ID": "2020-019P",
+    "CENTER_NAME": "EARTH",
+    "REF_FRAME": "TEME",
+    "TIME_SYSTEM": "UTC",
+    "MEAN_ELEMENT_THEORY": "SGP4",
+    "EPOCH": "2020-10-02T22:00:00.999936",
+    "MEAN_MOTION": "15.05586517",
+    "ECCENTRICITY": "0.00013900",
+    "INCLINATION": "53.0000",
+    "RA_OF_ASC_NODE": "72.1211",
+    "ARG_OF_PERICENTER": "86.5710",
+    "MEAN_ANOMALY": "173.8265",
+    "EPHEMERIS_TYPE": "0",
+    "CLASSIFICATION_TYPE": "U",
+    "NORAD_CAT_ID": "45373",
+    "ELEMENT_SET_NO": "999",
+    "REV_AT_EPOCH": "175",
+    "BSTAR": "0.00236530000000",
+    "MEAN_MOTION_DOT": "0.00034357",
+    "MEAN_MOTION_DDOT": "0.0000000000000",
+    "SEMIMAJOR_AXIS": "6927.842",
+    "PERIOD": "95.643",
+    "APOAPSIS": "550.670",
+    "PERIAPSIS": "548.744",
+    "OBJECT_TYPE": "PAYLOAD",
+    "RCS_SIZE": "LARGE",
+    "COUNTRY_CODE": "US",
+    "LAUNCH_DATE": "2020-03-18",
+    "SITE": "AFETR",
+    "DECAY_DATE": null,
+    "FILE": "2840435",
+    "GP_ID": "162646684",
+    "TLE_LINE0": "0 STARLINK-1295",
+    "TLE_LINE1": "1 45373U 20019P   20276.91667824 +.00034357 +00000-0 +23653-2 0  9997",
+    "TLE_LINE2": "2 45373 053.0000 072.1211 0001390 086.5710 173.8265 15.05586517001754"
+}, {
+    "CCSDS_OMM_VERS": "2.0",
+    "COMMENT": "GENERATED VIA SPACE-TRACK.ORG API",
+    "CREATION_DATE": "2020-10-03T04:36:52",
+    "ORIGINATOR": "18 SPCS",
+    "OBJECT_NAME": "STARLINK-1300",
+    "OBJECT_ID": "2020-019Q",
+    "CENTER_NAME": "EARTH",
+    "REF_FRAME": "TEME",
+    "TIME_SYSTEM": "UTC",
+    "MEAN_ELEMENT_THEORY": "SGP4",
+    "EPOCH": "2020-10-02T22:00:00.999936",
+    "MEAN_MOTION": "15.05568367",
+    "ECCENTRICITY": "0.00013940",
+    "INCLINATION": "53.0003",
+    "RA_OF_ASC_NODE": "72.1244",
+    "ARG_OF_PERICENTER": "91.6697",
+    "MEAN_ANOMALY": "186.7565",
+    "EPHEMERIS_TYPE": "0",
+    "CLASSIFICATION_TYPE": "U",
+    "NORAD_CAT_ID": "45374",
+    "ELEMENT_SET_NO": "999",
+    "REV_AT_EPOCH": "175",
+    "BSTAR": "0.00235380000000",
+    "MEAN_MOTION_DOT": "0.00034171",
+    "MEAN_MOTION_DDOT": "0.0000000000000",
+    "SEMIMAJOR_AXIS": "6927.898",
+    "PERIOD": "95.644",
+    "APOAPSIS": "550.729",
+    "PERIAPSIS": "548.797",
+    "OBJECT_TYPE": "PAYLOAD",
+    "RCS_SIZE": "LARGE",
+    "COUNTRY_CODE": "US",
+    "LAUNCH_DATE": "2020-03-18",
+    "SITE": "AFETR",
+    "DECAY_DATE": null,
+    "FILE": "2840435",
+    "GP_ID": "162646761",
+    "TLE_LINE0": "0 STARLINK-1300",
+    "TLE_LINE1": "1 45374U 20019Q   20276.91667824 +.00034171 +00000-0 +23538-2 0  9994",
+    "TLE_LINE2": "2 45374 053.0003 072.1244 0001394 091.6697 186.7565 15.05568367001758"
+}, {
+    "CCSDS_OMM_VERS": "2.0",
+    "COMMENT": "GENERATED VIA SPACE-TRACK.ORG API",
+    "CREATION_DATE": "2020-10-03T06:56:10",
+    "ORIGINATOR": "18 SPCS",
+    "OBJECT_NAME": "STARLINK-1302",
+    "OBJECT_ID": "2020-019R",
+    "CENTER_NAME": "EARTH",
+    "REF_FRAME": "TEME",
+    "TIME_SYSTEM": "UTC",
+    "MEAN_ELEMENT_THEORY": "SGP4",
+    "EPOCH": "2020-10-03T06:00:02.000160",
+    "MEAN_MOTION": "15.05558265",
+    "ECCENTRICITY": "0.00013370",
+    "INCLINATION": "52.9996",
+    "RA_OF_ASC_NODE": "70.6222",
+    "ARG_OF_PERICENTER": "101.1688",
+    "MEAN_ANOMALY": "113.0352",
+    "EPHEMERIS_TYPE": "0",
+    "CLASSIFICATION_TYPE": "U",
+    "NORAD_CAT_ID": "45375",
+    "ELEMENT_SET_NO": "999",
+    "REV_AT_EPOCH": "3078",
+    "BSTAR": "0.00185290000000",
+    "MEAN_MOTION_DOT": "0.00026804",
+    "MEAN_MOTION_DDOT": "0.0000000000000",
+    "SEMIMAJOR_AXIS": "6927.929",
+    "PERIOD": "95.645",
+    "APOAPSIS": "550.720",
+    "PERIAPSIS": "548.868",
+    "OBJECT_TYPE": "PAYLOAD",
+    "RCS_SIZE": "LARGE",
+    "COUNTRY_CODE": "US",
+    "LAUNCH_DATE": "2020-03-18",
+    "SITE": "AFETR",
+    "DECAY_DATE": null,
+    "FILE": "2840879",
+    "GP_ID": "162658339",
+    "TLE_LINE0": "0 STARLINK-1302",
+    "TLE_LINE1": "1 45375U 20019R   20277.25002315  .00026804  00000-0  18529-2 0  9999",
+    "TLE_LINE2": "2 45375  52.9996  70.6222 0001337 101.1688 113.0352 15.05558265 30789"
+}, {
+    "CCSDS_OMM_VERS": "2.0",
+    "COMMENT": "GENERATED VIA SPACE-TRACK.ORG API",
+    "CREATION_DATE": "2020-10-03T06:56:10",
+    "ORIGINATOR": "18 SPCS",
+    "OBJECT_NAME": "STARLINK-1304",
+    "OBJECT_ID": "2020-019S",
+    "CENTER_NAME": "EARTH",
+    "REF_FRAME": "TEME",
+    "TIME_SYSTEM": "UTC",
+    "MEAN_ELEMENT_THEORY": "SGP4",
+    "EPOCH": "2020-10-03T06:00:02.000160",
+    "MEAN_MOTION": "15.05594431",
+    "ECCENTRICITY": "0.00012640",
+    "INCLINATION": "52.9984",
+    "RA_OF_ASC_NODE": "70.6231",
+    "ARG_OF_PERICENTER": "105.5537",
+    "MEAN_ANOMALY": "18.6666",
+    "EPHEMERIS_TYPE": "0",
+    "CLASSIFICATION_TYPE": "U",
+    "NORAD_CAT_ID": "45376",
+    "ELEMENT_SET_NO": "999",
+    "REV_AT_EPOCH": "3078",
+    "BSTAR": "0.00014061000000",
+    "MEAN_MOTION_DOT": "0.00001771",
+    "MEAN_MOTION_DDOT": "0.0000000000000",
+    "SEMIMAJOR_AXIS": "6927.818",
+    "PERIOD": "95.643",
+    "APOAPSIS": "550.559",
+    "PERIAPSIS": "548.807",
+    "OBJECT_TYPE": "PAYLOAD",
+    "RCS_SIZE": "LARGE",
+    "COUNTRY_CODE": "US",
+    "LAUNCH_DATE": "2020-03-18",
+    "SITE": "AFETR",
+    "DECAY_DATE": null,
+    "FILE": "2840889",
+    "GP_ID": "162658874",
+    "TLE_LINE0": "0 STARLINK-1304",
+    "TLE_LINE1": "1 45376U 20019S   20277.25002315  .00001771  00000-0  14061-3 0  9994",
+    "TLE_LINE2": "2 45376  52.9984  70.6231 0001264 105.5537  18.6666 15.05594431 30780"
+}
+]
 
 for (var i = 0; i < big_json.length; i++) {
     var json = big_json[i];
-
-    var junk_tle_line_1 = json["TLE_LINE1"]
-    var junk_tle_line_2 = json["TLE_LINE2"]
-    var junk_satrec = satellite.twoline2satrec(junk_tle_line_1, junk_tle_line_2);
-
-    var junk_position = getPosition(junk_satrec, new Date())
-
-    placemark = addOrbitObjectToLayer(junkLayer, junk_position, json["OBJECT_NAME"])
-
-    junkPositions.push([junk_position, junk_satrec, placemark]);
+    junkObjects.push(SpaceObject.fromJson(json))
 }
 
-var catcherLayer = new WorldWind.RenderableLayer("Catcher");
+addObjectsToLayer(groundStationsLayer, groundObjects)
+addObjectsToLayer(junkLayer, junkObjects)
+addObjectsToLayer(catcherLayer, catcherObjects)
 
-catchersPositions = []
-
-function createCatcher(groundStation, targetSatrec) {
-    var newCatcherPosition = new WorldWind.Position(groundStation.latitude, groundStation.longitude, 1e3)
-    var placemark = addOrbitObjectToLayer(catcherLayer, newCatcherPosition, "Catcher", WorldWind.Color.RED, 0.5, 0.6)
-    catchersPositions.push([newCatcherPosition, targetSatrec, new Date(), placemark])
+function createCatcher(groundObj, targetObj) {
+    catcherObjects.push(new Catcher("Catcher", new WorldWind.Position(groundObj.position.latitude, groundObj.position.longitude, 1e3), targetObj))
+    addObjectsToLayer(catcherLayer, catcherObjects)
 }
 
-function getNewCatcherPosition(catcherPosition, targetPosition, lastDate) {
-    var catcherLocation = new WorldWind.Location(catcherPosition.latitude, catcherPosition.longitude)
-    var targetLocation = new WorldWind.Location(targetPosition.latitude, targetPosition.longitude)
-    var distance = WorldWind.Location.greatCircleDistance(targetLocation, catcherLocation);
-    var timeDelta = new Date() - lastDate;
-    var frac = Math.min((timeDelta / 1000 * 0.05) / distance, 0.8)
-    var resultLocation = new WorldWind.Location()
-    WorldWind.Location.interpolateGreatCircle(frac, catcherLocation, targetLocation, resultLocation)
-    var newPosition = new WorldWind.Position(resultLocation.latitude, resultLocation.longitude, targetPosition.altitude)
-    return newPosition
-}
-
-
-// Update WorldWindow
 var wwd = new WorldWind.WorldWindow("wwd");
 wwd.drawContext.clearColor = WorldWind.Color.colorFromBytes(0, 0, 0, 0);
 wwd.addLayer(bmngOneImageLayer);
@@ -129,54 +256,30 @@ wwd.addLayer(starfieldLayer);
 wwd.addLayer(groundStationsLayer);
 wwd.addLayer(junkLayer);
 wwd.addLayer(catcherLayer);
-// wwd.addLayer(orbitLayer);
-
 
 wwd.deepPicking = true;
 var highlightedItems = [];
 
 var handlePick = function (o) {
-
     var x = o.clientX,
         y = o.clientY;
-
-    var redrawRequired = highlightedItems.length > 0; // must redraw if we de-highlight previously picked items
-
-
+    var redrawRequired = highlightedItems.length > 0; // must redraw if we de-highlight previously picked itemsS
     for (var h = 0; h < highlightedItems.length; h++) {
         highlightedItems[h].highlighted = false;
     }
     highlightedItems = [];
-
-
-    var pickList = wwd.pick(wwd.canvasCoordinates(x, y));
+    var t = wwd.canvasCoordinates(x, y)
+    var rect = new WorldWind.Rectangle(x - 20, y + 20, 40, 40);
+    var pickList = wwd.pickShapesInRegion(rect);
     if (pickList.objects.length > 0) {
         redrawRequired = true;
     }
-
     if (pickList.objects.length > 0) {
-        var numShapesPicked = 0;
         for (var p = 0; p < pickList.objects.length; p++) {
             pickList.objects[p].userObject.highlighted = true;
-
-
             highlightedItems.push(pickList.objects[p].userObject);
-
-            if (pickList.objects[p].labelPicked) {
-                
-            }
-
-            if (!pickList.objects[p].isTerrain) {
-                ++numShapesPicked;
-            }
         }
-
-        // if (numShapesPicked > 0) {
-        //     console.log(numShapesPicked + " shapes picked");
-        // }
     }
-
-
     if (redrawRequired) {
         wwd.redraw();
     }
@@ -185,19 +288,12 @@ var handlePick = function (o) {
 wwd.addEventListener("mousemove", handlePick);
 var tapRecognizer = new WorldWind.TapRecognizer(wwd, handlePick);
 
-
-
-//Responsive altitude on devices
 if (screen.width > 900) {
     wwd.navigator.range = 4e7;
 } else {
     wwd.navigator.range = 1e7;
 }
-
-// Globe
 var globe = wwd.globe;
-
-// Map
 var map = new WorldWind.Globe2D();
 map.projection = new WorldWind.ProjectionEquirectangular();
 
@@ -205,33 +301,15 @@ map.projection = new WorldWind.ProjectionEquirectangular();
 // wwd.navigator.lookAtLocation = new WorldWind.Location(currentPosition.latitude,
 //     currentPosition.longitude);
 
-// Draw
 wwd.redraw();
-
-// Update Satellite Position
 var follow = false;
 
-createCatcher(groundStations[0], junkPositions[0][1])
+createCatcher(groundObjects[0], junkObjects[0]);
 
-window.setInterval(function () {for (var i = 0; i < junkPositions.length; i++) {
-        var newPosition = getPosition(junkPositions[i][1], new Date());
-        junkPositions[i][0].latitude = newPosition.latitude;
-        junkPositions[i][0].longitude = newPosition.longitude;
-        junkPositions[i][0].altitude = newPosition.altitude;
-        junkPositions[i][2].label = junkPositions[i][2].label.split("\n").slice(0, 1) + "\n" + altitudeToString(newPosition.altitude);
-    }
-
-    for (var i = 0; i < catchersPositions.length; i++) {
-        var targetPosition = getPosition(catchersPositions[i][1], new Date());
-        var oldCatcherPosition = catchersPositions[i][0];
-        var newPosition = getNewCatcherPosition(oldCatcherPosition, targetPosition, catchersPositions[i][2]);
-        oldCatcherPosition.latitude = newPosition.latitude;
-        oldCatcherPosition.longitude = newPosition.longitude;
-        oldCatcherPosition.altitude = newPosition.altitude;
-        catchersPositions[i][3].label = catchersPositions[i][3].label.split("\n").slice(0, 1) + "\n" + altitudeToString(newPosition.altitude);
-        catchersPositions[i][2] = new Date();
-    }
-
+window.setInterval(function () {
+    updateObjects(groundObjects)
+    updateObjects(junkObjects)
+    updateObjects(catcherObjects)
     wwd.redraw();
 }, 100);
 

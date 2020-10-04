@@ -1,28 +1,12 @@
-function addStationsToLayer(layer, groundStations) {
-    var placemarkAttributes = new WorldWind.PlacemarkAttributes(null);
-    placemarkAttributes.imageSource = "resources/icons/ground-station.png";
-    placemarkAttributes.imageScale = 0.5;
-    placemarkAttributes.imageOffset = new WorldWind.Offset(
-        WorldWind.OFFSET_FRACTION, 0.3,
-        WorldWind.OFFSET_FRACTION, 0.0);
-    placemarkAttributes.imageColor = WorldWind.Color.WHITE;
-    placemarkAttributes.labelAttributes.offset = new WorldWind.Offset(
-        WorldWind.OFFSET_FRACTION, 0.5,
-        WorldWind.OFFSET_FRACTION, 1.0);
-    placemarkAttributes.labelAttributes.color = WorldWind.Color.WHITE;
+function addObjectsToLayer(layer, objects) {
+    for (let i = 0, len = objects.length; i < len; i++) {
+        layer.addRenderable(objects[i].placeMark)
+    }
+}
 
-    for (var i = 0, len = groundStations.length; i < len; i++) {
-        var groundStation = groundStations[i];
-
-        var placemark = new WorldWind.Placemark(new WorldWind.Position(groundStation.latitude,
-            groundStation.longitude,
-            1e3));
-
-        placemark.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
-        placemark.label = groundStation.name;
-        placemark.attributes = placemarkAttributes;
-
-        layer.addRenderable(placemark);
+function updateObjects(objects) {
+    for (let i = 0, len = objects.length; i < len; i++) {
+        objects[i].update()
     }
 }
 
@@ -68,36 +52,6 @@ function addTracesToLayer(layer, satrec) {
 
     layer.addRenderable(pastOrbitPath);
     layer.addRenderable(futureOrbitPath);
-}
-
-function addOrbitObjectToLayer(layer, objectPosition, label, color=WorldWind.Color.WHITE, imageScale=0.2, labelScale=0.65) {
-    var placemarkAttributes = new WorldWind.PlacemarkAttributes(null);
-    placemarkAttributes.imageSource = "resources/icons/satellite.png";
-    placemarkAttributes.imageScale = imageScale;
-    placemarkAttributes.imageOffset = new WorldWind.Offset(
-        WorldWind.OFFSET_FRACTION, 0.5,
-        WorldWind.OFFSET_FRACTION, 0.5);
-    placemarkAttributes.imageColor = color;
-    placemarkAttributes.labelAttributes.offset = new WorldWind.Offset(
-        WorldWind.OFFSET_FRACTION, 0.5,
-        WorldWind.OFFSET_FRACTION, 1.0);
-    placemarkAttributes.labelAttributes.color = color;
-    placemarkAttributes.labelAttributes.scale = labelScale
-
-    var highlightPlacemarkAttributes = new WorldWind.PlacemarkAttributes(placemarkAttributes);
-    highlightPlacemarkAttributes.imageScale = 1.2;
-
-    var placemark = new WorldWind.Placemark(objectPosition);
-    updateLatitudeLongitudeAltitude(objectPosition);
-
-    placemark.altitudeMode = WorldWind.RELATIVE_TO_GROUND;
-    placemark.label = label + "\n" + altitudeToString(objectPosition.altitude);
-    placemark.attributes = placemarkAttributes;
-    placemark.highlightAttributes = highlightPlacemarkAttributes;
-
-    layer.addRenderable(placemark);
-
-    return placemark
 }
 
 function altitudeToString(altitude) {
