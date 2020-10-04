@@ -1,41 +1,55 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
+<head>
     <meta charset="UTF-8">
     <title>Simple Sentinel-1A Tracker</title>
     <link href="../style.css" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximun-scale=1.0, minimun-scale=1.0">
-  </head>
-  <body>
-  <input id="page" value="2" style="display: none">
-  <div class="logo">
-        <img src="../resources/logos/PNG/Horizontal%20White.png">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximun-scale=1.0, minimun-scale=1.0">
+</head>
+<body>
+<input id="page" value="2" style="display: none">
+<div class="logo">
+    <img src="../resources/logos/PNG/Horizontal%20White.png">
+</div>
+<div id="info">
+    <p id="ah">Debris info:</p>
+    <p>Name:<span id="name"></span></p>
+    <p>Country code: <span id="country"></span></p>
+    <p>Launch Date: <span id="date"></span></p>
+    <p>Mean Motion: <span id="motion"></span></p>
+    <p>Inclination: <span id="inclination"></span></p>
+    <p>Period: <span id="period"></span></p>
+</div>
+<div class="left_arrow">
+    <a href="1_westford.html">⇦ previous</a>
+</div>
+<div class="container">
+    <canvas id="wwd" class="balloon align-self-center">
+        Your browser does not support HTML5 Canvas.
+    </canvas>
+</div>
+<div class="sidebar">
+    <div class="article-box">
+        <h2>Fengyun 1C</h2>
+        <p>
+            Fēngyún, abbreviated as FY, are China's meteorological satellites. China has been launching meteorological
+            satellites in polar and geosynchronous orbit since 1988. On January 11, 2007, China destroyed one of these
+            satellites (FY-1C) during an anti-satellite missile test. According to NASA, the deliberate destruction of
+            the FY-1C generated 2,841 high-speed debris objects, which is more dangerous space debris than any other
+            space mission in history.
+        </p>
+        <img src="../resources/icons/3.jpg" style="width:360px;height:300px;">
     </div>
-    <div class="left_arrow">
-        <a href="1_westford.html">⇦ previous</a>
+    <div class="right_arrow">
+        <a href="3_cosom_iridium.html">next ⇨</a>
     </div>
-    <div class="container">
-      <canvas id="wwd" class="balloon align-self-center">
-              Your browser does not support HTML5 Canvas.
-      </canvas>
-    </div>
-    <div class="sidebar">
-        <div class="article-box">
-          <h2>Fengyun 1C</h2>
-          <p>
-              Fēngyún, abbreviated as FY, are China's meteorological satellites. China has been launching meteorological satellites in polar and geosynchronous orbit since 1988. On January 11, 2007, China destroyed one of these satellites (FY-1C) during an anti-satellite missile test. According to NASA, the deliberate destruction of the FY-1C generated 2,841 high-speed debris objects, which is more dangerous space debris than any other space mission in history.
-          </p>
-          <img src="../resources/icons/3.jpg" style="width:360px;height:300px;">
-        </div>
-        <div class="right_arrow">
-            <a href="3_cosom_iridium.html">next ⇨</a>
-        </div>
-    </div>
-    <script src="../libraries/worldwind.js"></script>
-    <script src="../libraries/satellite.js"></script>
-    <script src="../data.js"></script>
-    <script src="../classes.js"></script>
-    <script src="../drawer.js"></script>
-    <script src="../app.js"></script>
-  </body>
+</div>
+<script src="../libraries/worldwind.js"></script>
+<script src="../libraries/satellite.js"></script>
+<script src="../data.js"></script>
+<script src="../classes.js"></script>
+<script src="../drawer.js"></script>
+<script src="../app.js"></script>
+</body>
 </html>

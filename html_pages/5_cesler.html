@@ -1,37 +1,52 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
+<head>
     <meta charset="UTF-8">
     <title>Simple Sentinel-1A Tracker</title>
     <link href="../style.css" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximun-scale=1.0, minimun-scale=1.0">
-  </head>
-  <body>
-  <input id="page" value="5" style="display: none">
-  <div class="logo">
-        <img src="../resources/logos/PNG/Horizontal%20White.png">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximun-scale=1.0, minimun-scale=1.0">
+</head>
+<body>
+<input id="page" value="5" style="display: none">
+<div class="logo">
+    <img src="../resources/logos/PNG/Horizontal%20White.png">
+</div>
+<div id="info">
+    <p id="ah">Debris info:</p>
+    <p>Name:<span id="name"></span></p>
+    <p>Country code: <span id="country"></span></p>
+    <p>Launch Date: <span id="date"></span></p>
+    <p>Mean Motion: <span id="motion"></span></p>
+    <p>Inclination: <span id="inclination"></span></p>
+    <p>Period: <span id="period"></span></p>
+</div>
+<div class="left_arrow">
+    <a href="4_starlink.html">⇦ previous</a>
+</div>
+<div class="container">
+    <canvas id="wwd" class="balloon align-self-center">
+        Your browser does not support HTML5 Canvas.
+    </canvas>
+</div>
+<div class="sidebar">
+    <div class="article-box">
+        <h2>Kessler syndrome</h2>
+        <p>
+            Kessler's syndrome (effect) is a theoretical development of events in near-earth orbit, when space debris
+            resulting from numerous launches of artificial satellites makes near space completely unusable for practical
+            use. For the first time such a scenario was described in detail by NASA consultant Donald KesslerAccording
+            to NASA models, in low Earth orbit (altitude 200-2000 km), since 2007 there have been enough large debris
+            and satellites for the onset of the syndrome. According to calculations, on average, large collisions will
+            occur every five years, even if space launches are completely stopped, and the amount of debris will grow.
+        </p>
     </div>
-    <div class="left_arrow">
-        <a href="4_starlink.html">⇦ previous</a>
-    </div>
-    <div class="container">
-      <canvas id="wwd" class="balloon align-self-center">
-              Your browser does not support HTML5 Canvas.
-      </canvas>
-    </div>
-    <div class="sidebar">
-        <div class="article-box">
-          <h2>Kessler syndrome</h2>
-          <p>
-              Kessler's syndrome (effect) is a theoretical development of events in near-earth orbit, when space debris resulting from numerous launches of artificial satellites makes near space completely unusable for practical use. For the first time such a scenario was described in detail by NASA consultant Donald KesslerAccording to NASA models, in low Earth orbit (altitude 200-2000 km), since 2007 there have been enough large debris and satellites for the onset of the syndrome. According to calculations, on average, large collisions will occur every five years, even if space launches are completely stopped, and the amount of debris will grow.
-          </p>
-        </div>
-    </div>
-    <script src="../libraries/worldwind.js"></script>
-    <script src="../libraries/satellite.js"></script>
-    <script src="../data.js"></script>
-    <script src="../classes.js"></script>
-    <script src="../drawer.js"></script>
-    <script src="../app.js"></script>
-  </body>
+</div>
+<script src="../libraries/worldwind.js"></script>
+<script src="../libraries/satellite.js"></script>
+<script src="../data.js"></script>
+<script src="../classes.js"></script>
+<script src="../drawer.js"></script>
+<script src="../app.js"></script>
+</body>
 </html>

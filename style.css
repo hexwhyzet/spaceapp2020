@@ -167,3 +167,24 @@ a {
     border-radius: 10px;
     border: white 3px solid;
 }
+
+#info {
+    width: 350px;
+    text-align: left;
+    font-family: Barlow;
+    font-size: 50px;
+    position: absolute;
+    left: 80px;
+    top: 350px;
+}
+
+#info #ah {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+#info p {
+    text-align: left;
+    top: 0;
+    font-size: 20px;
+}
