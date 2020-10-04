@@ -190,7 +190,7 @@ function findObjectAndUpdate(placeMark) {
     }
 }
 
-wwd.addEventListener("mousemove", handlePick);
+wwd.addEventListener("click", handlePick);
 var tapRecognizer = new WorldWind.TapRecognizer(wwd, handlePick);
 
 if (screen.width > 900) {
