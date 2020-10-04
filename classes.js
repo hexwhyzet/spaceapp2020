@@ -129,7 +129,7 @@ class Catcher extends groundObject {
                 let {distance: distance1, falling: falling1, fallingStartTime: fallingStartTime1, getLocation, initPlaceMark, lastUpdate: lastUpdate1, name, placeMark, position, target: target1, update: update1, updateLabel, updatePosition: updatePosition1} = this;
             }
         } else {
-            this.position.altitude = this.target.position.altitude
+            this.position.altitude = this.position.altitude + 0.2 * (this.target.position.altitude - this.position.altitude)
             if (this.distance(this.target) < 0.0001) {
                 this.falling = true
                 this.fallingStartTime = new Date()
