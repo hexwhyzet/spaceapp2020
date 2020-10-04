@@ -106,12 +106,28 @@ function ConstructPage(number) {
     }
 }
 
+function clearPage() {
+    for (let i = 0; i < groundObjects.length; i++) {
+        groundStationsLayer.removeRenderable(groundObjects[i].placeMark)
+        groundObjects = []
+    }
+    for (let i = 0; i < junkObjects.length; i++) {
+        junkLayer.removeRenderable(junkObjects[i].placeMark)
+        junkObjects = []
+    }
+    for (let i = 0; i < catcherObjects.length; i++) {
+        catcherLayer.removeRenderable(catcherObjects[i].placeMark)
+        catcherObjects = []
+    }
+}
+
 ConstructPage(0)
 
 addObjectsToLayer(groundStationsLayer, groundObjects)
 addObjectsToLayer(junkLayer, junkObjects)
 addObjectsToLayer(catcherLayer, catcherObjects)
 
+createCatcher(groundObjects[0], junkObjects[0]);
 
 var wwd = new WorldWind.WorldWindow("wwd");
 wwd.drawContext.clearColor = WorldWind.Color.colorFromBytes(0, 0, 0, 0);
@@ -122,6 +138,8 @@ wwd.addLayer(starfieldLayer);
 wwd.addLayer(groundStationsLayer);
 wwd.addLayer(junkLayer);
 wwd.addLayer(catcherLayer);
+
+// clearPage()
 
 wwd.deepPicking = true;
 var highlightedItems = [];
@@ -169,8 +187,6 @@ map.projection = new WorldWind.ProjectionEquirectangular();
 
 wwd.redraw();
 var follow = false;
-
-createCatcher(groundObjects[0], junkObjects[0]);
 
 window.setInterval(function () {
     updateObjects(groundObjects)
