@@ -92,6 +92,18 @@ function ConstructPage(number) {
             }
             break;
         }
+        case 5: {
+            junkObjects = []
+            catcherObjects = []
+
+            const json = cesler
+
+            for (var i = 0; i < json.length; i++) {
+                var json_elem = json[i];
+                junkObjects.push(SpaceObject.fromJson(json_elem))
+            }
+            break;
+        }
     }
 }
 
