@@ -63,7 +63,7 @@ class SpaceObject extends groundObject {
         super(name, position)
         this.satrec = satrec
         this.falling = false
-        this.initPlaceMark("../resources/icons/satellite.png", 0.35, WorldWind.Color.WHITE, 0.5, WorldWind.Color.WHITE)
+        this.initPlaceMark("../resources/icons/satellitep.png", 0.35, WorldWind.Color.WHITE, 0.5, WorldWind.Color.WHITE)
     }
 
     static fromJson(json) {
